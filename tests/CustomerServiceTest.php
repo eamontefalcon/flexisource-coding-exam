@@ -88,6 +88,7 @@ class CustomerServiceTest extends TestCase
             ]
         ];
 
+
         $this->assertJson(json_encode($response));
         $this->assertJsonStringEqualsJsonString(json_encode($expectedJson), json_encode($response));
 

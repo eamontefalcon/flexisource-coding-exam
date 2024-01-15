@@ -11,6 +11,11 @@ use App\Helpers\HttpHelper;
 
 class CustomerService
 {
+    private function setApiResponse($response): array
+    {
+        return (new GetCustomerDTO($response))->getResults();
+    }
+
     /**
      * @throws Exception
      */
@@ -34,8 +39,4 @@ class CustomerService
         return $this->setApiResponse($response);
     }
 
-    public function setApiResponse($response): array
-    {
-        return (new GetCustomerDTO($response))->getResults();
-    }
 }
