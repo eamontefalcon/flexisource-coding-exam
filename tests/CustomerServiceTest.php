@@ -3,19 +3,12 @@
 namespace Tests;
 
 use App\Services\Customer\CustomerService;
-use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Http;
-use App\Helpers\HttpHelper;
-use App\DTO\GetCustomerDTO;
 class CustomerServiceTest extends TestCase
 {
 
-
     public function getCustomerDummyData()
     {
-
-        /** @var Faker $faker */
-        $faker = app(Faker::class);
 
         return                 [
             'results' => [
@@ -23,13 +16,13 @@ class CustomerServiceTest extends TestCase
                     'gender' => 'female',
                     'name' => ['title' => 'Mrs', 'first' => 'Pamela', 'last' => 'Breitenberg'],
                     'location' => [
-                        'street' => ['number' => 7990, 'name' => 'Zorke Todosić'],
-                        'city' => 'Užice',
-                        'state' => 'Pirot',
-                        'country' => 'Serbia',
-                        'postcode' => '33552',
-                        'coordinates' => ['latitude' => '56.9094', 'longitude' => '112.1152'],
-                        'timezone' => ['offset' => '+4:00', 'description' => 'Abu Dhabi, Muscat, Baku, Tbilisi'],
+                        'street' => ['number' => 6491, 'name' => 'Smokey Ln'],
+                        'city' => 'Bendigo',
+                        'state' => 'Queensland',
+                        'country' => 'Australia',
+                        'postcode' => 8090,
+                        'coordinates' => ['latitude' => '10.4197', 'longitude' => '-146.1116'],
+                        'timezone' => ['offset' => '-4:00', 'description' => 'Atlantic Time (Canada), Caracas, La Paz'],
                     ],
                     'email' => 'leila.von@hotmail.com',
                     'login' => [
@@ -43,8 +36,8 @@ class CustomerServiceTest extends TestCase
                     ],
                     'dob' => ['date' => '1967-07-11T13:37:13.243Z', 'age' => 30],
                     'registered' => ['date' => '2020-09-27T11:00:10.733Z', 'age' => 10],
-                    'phone' => '017-4211-736',
-                    'cell' => '066-9740-396',
+                    'phone' => '09-7946-4705',
+                    'cell' => '0478-043-977',
                     'id' => ['name' => 'SID', 'value' => '2463398T'],
                     'picture' => [
                         'large' => 'https://randomuser.me/api/portraits/women/15.jpg',
@@ -71,16 +64,16 @@ class CustomerServiceTest extends TestCase
     {
 
         Http::fake([
-            config('customer.base_url').'?results=1' => Http::response(
+            config('customer.base_url').'?results=1&nat=au' => Http::response(
                 $this->getCustomerDummyData()
             ),
         ]);
 
-
         /** @var  CustomerService $customerService */
         $customerService = app(CustomerService::class);
 
-        $response = $customerService->getCustomers(1);
+        $response = $customerService->getCustomers(1, 'au');
+
         $expectedJson = [
             [
                 'first_name' => 'Pamela',
@@ -89,9 +82,9 @@ class CustomerServiceTest extends TestCase
                 'username' => 'bernard55',
                 'password' => 'toledo',
                 'gender' => 'female',
-                'country' => 'Serbia',
-                'city' => 'Užice',
-                'phone' => '017-4211-736',
+                'country' => 'Australia',
+                'city' => 'Bendigo',
+                'phone' => '09-7946-4705',
             ]
         ];
 
@@ -107,7 +100,7 @@ class CustomerServiceTest extends TestCase
     {
 
         Http::fake([
-            config('customer.base_url').'?results=1' => Http::response(
+            config('customer.base_url').'?results=1&nat=au' => Http::response(
                 [
                     'error' => 'Uh oh, something has gone wrong. Please tweet us @randomapi about the issue. Thank you.'
                 ], 500
@@ -117,7 +110,7 @@ class CustomerServiceTest extends TestCase
         /** @var  CustomerService $customerService */
         $customerService = app(CustomerService::class);
 
-        $response = $customerService->getCustomers(1);
+        $response = $customerService->getCustomers(1, 'au');
         $this->assertSame(500, $response->status());
 
     }

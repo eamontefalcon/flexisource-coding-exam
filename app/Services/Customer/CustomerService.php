@@ -14,10 +14,16 @@ class CustomerService
     /**
      * @throws Exception
      */
-    public function getCustomers(int $importCount): JsonResponse | array
+    public function getCustomers(int $importCount, string $nationality = null): JsonResponse | array
     {
+
+        $parameter = '?results='.$importCount;
+        if ($nationality) {
+            $parameter .= '&nat='.$nationality;
+        }
+
         /** @var Response $response */
-        $response = Http::customer()->get('?results='.$importCount);
+        $response = Http::customer()->get($parameter);
 
         $response = HttpHelper::tryCatchHttp($response);
 
