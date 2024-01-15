@@ -102,7 +102,7 @@ $app->configure('customer');
 $app->register(LaravelDoctrine\ORM\DoctrineServiceProvider::class);
 $app->register(\LaravelDoctrine\Migrations\MigrationsServiceProvider::class);
 $app->register(App\Providers\HttpMacroServiceProvider::class);
-
+$app->register(App\Providers\CustomerServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

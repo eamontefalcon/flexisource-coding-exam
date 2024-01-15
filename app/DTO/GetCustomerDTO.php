@@ -2,18 +2,20 @@
 
 namespace App\DTO;
 
+use Illuminate\Http\Client\Response;
+
 class GetCustomerDTO
 {
 
     private array $data = [];
 
-    public function __construct($data)
+    public function __construct(Response $data)
     {
         ['results' => $results] = $data;
         $this->setResults($results);
     }
 
-    public function setResults($results): void
+    public function setResults(array $results): void
     {
         // Process each user in the results array
         foreach ($results as $user) {

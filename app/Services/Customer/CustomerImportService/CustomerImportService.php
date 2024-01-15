@@ -3,15 +3,19 @@
 namespace App\Services\Customer\CustomerImportService;
 
 use App\Services\Customer\CreateCustomerService\CreateCustomerService;
+use App\Services\Customer\CustomerInterface;
 use App\Services\Customer\CustomerService;
 
 class CustomerImportService
 {
     private CreateCustomerService $createCustomerService;
 
-    public function __construct(CreateCustomerService $createCustomerService)
+    private CustomerInterface $customer;
+
+    public function __construct(CreateCustomerService $createCustomerService, CustomerInterface $customer)
     {
         $this->createCustomerService = $createCustomerService;
+        $this->customer = $customer;
     }
 
     /**
@@ -19,9 +23,7 @@ class CustomerImportService
      */
     public function handle(int $importCount, string $nationality): void
     {
-        //TODO adjust this using interface later
-        $customerService = new CustomerService();
-        $customers = $customerService->getCustomers($importCount, $nationality);
+        $customers = $this->customer->getCustomers($importCount, $nationality);
 
         $this->createCustomerService->createBulkCustomer($customers);
     }

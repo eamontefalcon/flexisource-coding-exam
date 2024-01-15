@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Http;
 use App\DTO\GetCustomerDTO;
 use App\Helpers\HttpHelper;
 
-class CustomerService
+class CustomerService implements CustomerInterface
 {
-    private function setApiResponse($response): array
+    private function setApiResponse(Response $response): array
     {
         return (new GetCustomerDTO($response))->getResults();
     }
