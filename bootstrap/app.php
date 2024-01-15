@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -101,6 +101,7 @@ $app->configure('customer');
 
 $app->register(LaravelDoctrine\ORM\DoctrineServiceProvider::class);
 $app->register(\LaravelDoctrine\Migrations\MigrationsServiceProvider::class);
+$app->register(App\Providers\HttpMacroServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
