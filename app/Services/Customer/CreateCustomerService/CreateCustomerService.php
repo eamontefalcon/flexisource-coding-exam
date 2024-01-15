@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CreateCustomerService
 {
-
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -64,8 +63,6 @@ class CreateCustomerService
                 $this->entityManager->persist($customer);
                 $this->entityManager->flush(); //we need to flush here to avoid email duplication
             } else {
-                \Log::info($customer->getEmail());
-                \Log::info($customer->getUsername());
                 $this->update($customer, $aCustomer);
             }
         }

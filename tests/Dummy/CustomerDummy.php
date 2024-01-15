@@ -6,7 +6,6 @@ use Faker\Generator;
 
 class CustomerDummy
 {
-
     private Generator $faker;
 
     public function __construct(Generator $faker)

@@ -4,7 +4,6 @@ namespace Tests\Trait;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Generator;
 use Illuminate\Support\Facades\Artisan;
 
 trait RefreshDatabase
