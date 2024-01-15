@@ -61,6 +61,10 @@ $app->singleton(
 
 $app->configure('app');
 
+//additional configs
+$app->configure('database');
+$app->configure('doctrine');
+$app->configure('customer');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -94,6 +98,9 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+
+$app->register(LaravelDoctrine\ORM\DoctrineServiceProvider::class);
+$app->register(\LaravelDoctrine\Migrations\MigrationsServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
