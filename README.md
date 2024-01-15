@@ -9,6 +9,19 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 
 ## Official Documentation
 
+## Installation guide
+1. make sure to used at least php version 8.2
+2. composer install for dependencies
+3. environment variable (copy the .env.example to .env)
+4. create database "flexisource_exam_testing" for testing
+
+## List of commands
+1. composer install
+2. php artisan doctrine:migrations:diff
+3. php artisan doctrine:migrations:migrate
+4. composer test
+5. php artisan import:customer
+
 Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
 
 ## Contributing
