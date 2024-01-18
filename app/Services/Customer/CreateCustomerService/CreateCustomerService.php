@@ -3,6 +3,7 @@
 namespace App\Services\Customer\CreateCustomerService;
 
 use App\Entities\Customer;
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\Facades\Log;
@@ -34,6 +35,7 @@ class CreateCustomerService
 
     /**
      * @throws \Exception
+     * @throws Exception
      */
     public function createBulkCustomer(array $customersData): void
     {
@@ -42,35 +44,39 @@ class CreateCustomerService
 
         foreach ($batches as $batch) {
             $sql = 'INSERT INTO customers (first_name, last_name, email, username, password, gender, country, city, phone) VALUES ';
+            $values = [];
+            $updateValues = [];
 
             foreach ($batch as $item) {
-                $sql .= sprintf(
-                    '("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"), ',
-                    $item['first_name'],
-                    $item['last_name'],
-                    $item['email'],
-                    $item['username'],
-                    $item['password'],
-                    $item['gender'],
-                    $item['country'],
-                    $item['city'],
-                    $item['phone']
-                );
-            }
-            $sql = rtrim($sql, ', ');
-            $sql .= ' ON DUPLICATE KEY UPDATE
-            first_name=VALUES(first_name),
-            last_name=VALUES(last_name),
-            email=VALUES(email),
-            username=VALUES(username),
-            password=VALUES(password),
-            gender=VALUES(gender),
-            country=VALUES(country),
-            city=VALUES(city),
-            phone=VALUES(phone)';
+                $sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?), ';
+                $values[] = $item['first_name'];
+                $values[] = $item['last_name'];
+                $values[] = $item['email'];
+                $values[] = $item['username'];
+                $values[] = $item['password'];
+                $values[] = $item['gender'];
+                $values[] = $item['country'];
+                $values[] = $item['city'];
+                $values[] = $item['phone'];
 
-            // Execute the SQL query
-            $this->entityManager->getConnection()->executeStatement($sql);
+                // Prepare the update part
+                $updateValues[] = 'first_name = VALUES(first_name)';
+                $updateValues[] = 'last_name = VALUES(last_name)';
+                $updateValues[] = 'email = VALUES(email)';
+                $updateValues[] = 'username = VALUES(username)';
+                $updateValues[] = 'password = VALUES(password)';
+                $updateValues[] = 'gender = VALUES(gender)';
+                $updateValues[] = 'country = VALUES(country)';
+                $updateValues[] = 'city = VALUES(city)';
+                $updateValues[] = 'phone = VALUES(phone)';
+            }
+
+            $sql = rtrim($sql, ', ');
+            $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updateValues);
+
+            // Prepare and execute the statement
+            $stmt = $this->entityManager->getConnection()->prepare($sql);
+            $stmt->executeStatement($values);
         }
     }
 

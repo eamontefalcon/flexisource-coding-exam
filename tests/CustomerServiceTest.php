@@ -3,10 +3,12 @@
 namespace Tests;
 
 use App\Services\Customer\CustomerInterface;
-use App\Services\Customer\CustomerService;
 use Illuminate\Support\Facades\Http;
 class CustomerServiceTest extends TestCase
 {
+
+    private CustomerInterface $customer;
+
 
     public function getCustomerDummyData()
     {
