@@ -3,7 +3,9 @@
 namespace App\Services\Customer\CreateCustomerService;
 
 use App\Entities\Customer;
+use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Facades\Log;
 
 class CreateCustomerService
 {
@@ -27,6 +29,7 @@ class CreateCustomerService
         $customer->setCountry($data['country']);
         $customer->setCity($data['city']);
         $customer->setPhone( $data['phone']);
+
     }
 
     /**
@@ -34,38 +37,41 @@ class CreateCustomerService
      */
     public function createBulkCustomer(array $customersData): void
     {
+        $size = 500;
+        $batches =  array_chunk($customersData, $size);
 
-        foreach($customersData as $aCustomer) {
-            $customer = $this->entityManager->getRepository(Customer::class)->findOneBy(['email' => $aCustomer]);
+        foreach ($batches as $batch) {
+            $sql = 'INSERT INTO customers (first_name, last_name, email, username, password, gender, country, city, phone) VALUES ';
 
-            $firstName = $aCustomer['first_name'];
-            $lastName = $aCustomer['last_name'];
-            $email = $aCustomer['email'];
-            $username = $aCustomer['username'];
-            $password = md5($aCustomer['password']);
-            $gender = $aCustomer['gender'];
-            $country = $aCustomer['country'];
-            $city = $aCustomer['city'];
-            $phone = $aCustomer['phone'];
-
-            if (null === $customer) {
-                $customer = new Customer(
-                    $firstName,
-                    $lastName,
-                    $email,
-                    $username,
-                    $password,
-                    $gender,
-                    $country,
-                    $city,
-                    $phone
+            foreach ($batch as $item) {
+                $sql .= sprintf(
+                    '("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"), ',
+                    $item['first_name'],
+                    $item['last_name'],
+                    $item['email'],
+                    $item['username'],
+                    $item['password'],
+                    $item['gender'],
+                    $item['country'],
+                    $item['city'],
+                    $item['phone']
                 );
-                $this->entityManager->persist($customer);
-                $this->entityManager->flush(); //we need to flush here to avoid email duplication
-            } else {
-                $this->update($customer, $aCustomer);
             }
-        }
+            $sql = rtrim($sql, ', ');
+            $sql .= ' ON DUPLICATE KEY UPDATE
+            first_name=VALUES(first_name),
+            last_name=VALUES(last_name),
+            email=VALUES(email),
+            username=VALUES(username),
+            password=VALUES(password),
+            gender=VALUES(gender),
+            country=VALUES(country),
+            city=VALUES(city),
+            phone=VALUES(phone)';
 
+            // Execute the SQL query
+            $this->entityManager->getConnection()->executeStatement($sql);
+        }
     }
+
 }
