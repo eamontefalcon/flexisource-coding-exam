@@ -38,7 +38,6 @@ class ImportCustomerCommand extends Command
      */
     public function handle(): void
     {
-        //TODO make a param for how many customer want to import
         $importCount = 5000;
         $nationality = 'au';
 

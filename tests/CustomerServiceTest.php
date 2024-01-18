@@ -75,13 +75,14 @@ class CustomerServiceTest extends TestCase
 
         $response = $customerService->getCustomers(1, 'au');
 
+
         $expectedJson = [
             [
                 'first_name' => 'Pamela',
                 'last_name' => 'Breitenberg',
                 'email' => 'leila.von@hotmail.com',
                 'username' => 'bernard55',
-                'password' => 'toledo',
+                'password' => md5('toledo'),
                 'gender' => 'female',
                 'country' => 'Australia',
                 'city' => 'Bendigo',
