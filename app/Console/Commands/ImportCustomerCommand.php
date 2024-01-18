@@ -21,24 +21,29 @@ class ImportCustomerCommand extends Command
      * @var string
      */
     protected $description = 'Import customers from api';
+    private CustomerImportService $customerImportService;
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(CustomerImportService $customerImportService, EntityManagerInterface $entityManager)
+    {
+        parent::__construct();
+
+        $this->customerImportService = $customerImportService;
+        $this->entityManager = $entityManager;
+    }
+
 
     /**
-     * Execute the console command.
-     *
-     * @return int
+     * @throws \Exception
      */
-    public function handle()
+    public function handle(): void
     {
         //TODO make a param for how many customer want to import
-        $importCount = 100;
+        $importCount = 5000;
         $nationality = 'au';
 
-        /** @var CustomerImportService $customerImportService */
-        $customerImportService = app(CustomerImportService::class);
-        $customerImportService->handle($importCount, $nationality);
-
-        $entityManager = app(EntityManagerInterface::class);
-        $entityManager->flush();
-        $entityManager->clear();
+        $this->customerImportService->handle($importCount, $nationality);
+        $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 }
