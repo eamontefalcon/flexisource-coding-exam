@@ -23,7 +23,7 @@ class CustomerDummy
             'last_name' => $this->faker->lastName,
             'email' =>  $this->faker->email,
             'username' => $this->faker->userName,
-            'password' => md5($this->faker->password),
+            'password' => $this->faker->password,
             'gender' => $gender[$selectedGender],
             'country' => $this->faker->country(),
             'city' => $this->faker->city(),
