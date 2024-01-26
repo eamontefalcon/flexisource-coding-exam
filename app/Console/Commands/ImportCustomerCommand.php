@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Services\Customer\CustomerImportService\CustomerImportService;
-use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
 
 class ImportCustomerCommand extends Command
@@ -22,14 +21,12 @@ class ImportCustomerCommand extends Command
      */
     protected $description = 'Import customers from api';
     private CustomerImportService $customerImportService;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(CustomerImportService $customerImportService, EntityManagerInterface $entityManager)
+    public function __construct(CustomerImportService $customerImportService)
     {
         parent::__construct();
 
         $this->customerImportService = $customerImportService;
-        $this->entityManager = $entityManager;
     }
 
 
@@ -42,7 +39,5 @@ class ImportCustomerCommand extends Command
         $nationality = 'au';
 
         $this->customerImportService->handle($importCount, $nationality);
-        $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 }
