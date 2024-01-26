@@ -15,32 +15,40 @@ class GetCustomerDTO
         $this->setResults($results);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setResults(array $results): void
     {
         // Process each user in the results array
         foreach ($results as $user) {
-            $firstName = $user['name']['first'];
-            $lastName = $user['name']['last'];
-            $email = $user['email'];
-            $username = $user['login']['username'];
-            $password = md5($user['login']['password']);
-            $gender = $user['gender'];
-            $country = $user['location']['country'];
-            $city = $user['location']['city'];
-            $phone = $user['phone'];
+            try {
+                $firstName = $user['name']['first'];
+                $lastName = $user['name']['last'];
+                $email = $user['email'];
+                $username = $user['login']['username'];
+                $password = md5($user['login']['password']);
+                $gender = $user['gender'];
+                $country = $user['location']['country'];
+                $city = $user['location']['city'];
+                $phone = $user['phone'];
 
-            //we will return only what we needed
-            $this->data[] = [
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
-                'username' => $username,
-                'password' => $password,
-                'gender' => $gender,
-                'country' => $country,
-                'city' => $city,
-                'phone' => $phone
-            ];
+                //we will return only what we needed
+                $this->data[] = [
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'email' => $email,
+                    'username' => $username,
+                    'password' => $password,
+                    'gender' => $gender,
+                    'country' => $country,
+                    'city' => $city,
+                    'phone' => $phone
+                ];
+            } catch (\Exception $exception) {
+                throw new \Exception($exception->getMessage());
+            }
+
         }
 
     }
