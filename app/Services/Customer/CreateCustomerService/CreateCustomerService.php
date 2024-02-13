@@ -33,58 +33,57 @@ class CreateCustomerService
 
     }
 
+    /**
+     * @throws \Exception
+     * @throws Exception
+     */
     public function createBulkCustomer(array $customersData): void
     {
         $size = 500;
-        $batches = array_chunk($customersData, $size);
+        $batches =  array_chunk($customersData, $size);
 
         foreach ($batches as $batch) {
-            $sql = $this->buildInsertOrUpdateQuery($batch);
+            $sql = 'INSERT INTO customers (first_name, last_name, email, username, password, gender, country, city, phone) VALUES ';
+            $values = [];
+            $updateValues = [];
 
+            foreach ($batch as $item) {
+                $sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?), ';
+                $values[] = $item['first_name'];
+                $values[] = $item['last_name'];
+                $values[] = $item['email'];
+                $values[] = $item['username'];
+                $values[] = md5($item['password']);
+                $values[] = $item['gender'];
+                $values[] = $item['country'];
+                $values[] = $item['city'];
+                $values[] = $item['phone'];
+
+                // Prepare the update part
+                $updateValues[] = 'first_name = VALUES(first_name)';
+                $updateValues[] = 'last_name = VALUES(last_name)';
+                $updateValues[] = 'email = VALUES(email)';
+                $updateValues[] = 'username = VALUES(username)';
+                $updateValues[] = 'password = VALUES(password)';
+                $updateValues[] = 'gender = VALUES(gender)';
+                $updateValues[] = 'country = VALUES(country)';
+                $updateValues[] = 'city = VALUES(city)';
+                $updateValues[] = 'phone = VALUES(phone)';
+            }
+
+            $sql = rtrim($sql, ', ');
+            $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updateValues);
+
+            // Prepare and execute the statement
             try {
                 // Prepare and execute the statement
                 $stmt = $this->entityManager->getConnection()->prepare($sql);
-                $stmt->executeStatement();
+                $stmt->executeStatement($values);
             } catch (\Exception $e) {
                 Log::error("Error while inserting/updating customers batch: " . $e->getMessage());
+                throw $e;
             }
         }
-    }
-
-    private function buildInsertOrUpdateQuery(array $data): string
-    {
-        $sql = 'INSERT INTO customers (first_name, last_name, email, username, password, gender, country, city, phone) VALUES ';
-        $values = [];
-        $updateValues = [];
-
-        foreach ($data as $item) {
-            $sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?), ';
-            $values[] = $item['first_name'];
-            $values[] = $item['last_name'];
-            $values[] = $item['email'];
-            $values[] = $item['username'];
-            $values[] = md5($item['password']);
-            $values[] = $item['gender'];
-            $values[] = $item['country'];
-            $values[] = $item['city'];
-            $values[] = $item['phone'];
-
-            // Prepare the update part
-            $updateValues[] = 'first_name = VALUES(first_name)';
-            $updateValues[] = 'last_name = VALUES(last_name)';
-            $updateValues[] = 'email = VALUES(email)';
-            $updateValues[] = 'username = VALUES(username)';
-            $updateValues[] = 'password = VALUES(password)';
-            $updateValues[] = 'gender = VALUES(gender)';
-            $updateValues[] = 'country = VALUES(country)';
-            $updateValues[] = 'city = VALUES(city)';
-            $updateValues[] = 'phone = VALUES(phone)';
-        }
-
-        $sql = rtrim($sql, ', ');
-        $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updateValues);
-
-        return $sql;
     }
 
 }
