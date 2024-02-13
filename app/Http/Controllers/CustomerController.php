@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CustomerResource;
 use App\Repositories\Customer\CustomerRepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -36,8 +37,6 @@ class CustomerController extends Controller
             abort(404);
         }
 
-        $customerResource = new CustomerResource($customer);
-
-        return response()->json(['data' => $customerResource->show()]);
+        return response()->json(['data' => (new CustomerResource($customer))->showDetails()]);
     }
 }

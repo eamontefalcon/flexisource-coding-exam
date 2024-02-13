@@ -10,6 +10,9 @@ class CustomerImportService
     private ImportCustomerInterface $importCustomer;
     private CustomerRepositoryInterface $customerRepository;
 
+    /**
+     * Initialize instances
+     */
     public function __construct(CustomerRepositoryInterface $customerRepository, ImportCustomerInterface $importCustomer)
     {
         $this->importCustomer = $importCustomer;
