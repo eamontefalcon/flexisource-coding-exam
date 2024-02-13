@@ -19,22 +19,6 @@ class CreateCustomerService
 
     /**
      * @throws \Exception
-     */
-    public function update(Customer $customer, $data): void
-    {
-        $customer->setFirstName($data['first_name']);
-        $customer->setLastName($data['last_name']);
-        $customer->setUsername($data['username']);
-        $customer->setPassword(md5($data['password']));
-        $customer->setGender($data['gender']);
-        $customer->setCountry($data['country']);
-        $customer->setCity($data['city']);
-        $customer->setPhone( $data['phone']);
-
-    }
-
-    /**
-     * @throws \Exception
      * @throws Exception
      */
     public function createBulkCustomer(array $customersData): void
