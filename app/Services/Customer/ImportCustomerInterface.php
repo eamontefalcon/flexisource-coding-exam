@@ -2,7 +2,6 @@
 
 namespace App\Services\Customer;
 
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 
 interface ImportCustomerInterface

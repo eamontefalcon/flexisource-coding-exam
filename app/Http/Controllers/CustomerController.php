@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Customer;
-use App\Renderers\Customer\CustomerRenderer;
+use App\Http\Resources\CustomerResource;
 use App\Repositories\Customer\CustomerRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\JsonResponse;
 
 class CustomerController extends Controller
@@ -14,19 +12,17 @@ class CustomerController extends Controller
      * Initialize instances
      */
     public function __construct(
-        public CustomerRepositoryInterface $customerRepository,
-        public CustomerRenderer $customerRenderer
+        public CustomerRepositoryInterface $customerRepository
     ) { }
 
     /**
      * Get list of customers
-     * return api resource
      */
     public function index(): JsonResponse
     {
         $customers = $this->customerRepository->findAll();
 
-        return response()->json(['data' => $this->customerRenderer->renderArray($customers)]);
+        return response()->json(['data' => CustomerResource::collection($customers)]);
     }
 
     /**
@@ -40,6 +36,8 @@ class CustomerController extends Controller
             abort(404);
         }
 
-        return response()->json(['data' => $this->customerRenderer->render($customer)]);
+        $customerResource = new CustomerResource($customer);
+
+        return response()->json(['data' => $customerResource->show()]);
     }
 }

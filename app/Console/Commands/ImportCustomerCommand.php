@@ -35,7 +35,7 @@ class ImportCustomerCommand extends Command
      */
     public function handle(): void
     {
-        $importCount = 1;
+        $importCount = 500;
         $nationality = 'au';
 
         $this->customerImportService->handle($importCount, $nationality);
