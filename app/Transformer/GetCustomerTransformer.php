@@ -1,18 +1,26 @@
 <?php
 
-namespace App\DTO;
+namespace App\Transformer;
 
 use Illuminate\Http\Client\Response;
 
-class GetCustomerDTO
+
+/** make this transformer */
+class GetCustomerTransformer
 {
 
     private array $data = [];
 
+    /**
+     * @throws \Exception
+     *
+     * get tghe
+     *
+     */
     public function __construct(Response $data)
     {
-        ['results' => $results] = $data;
-        $this->setResults($results);
+        $result = ($data['results']) ?? [];
+        $this->setResults($result);
     }
 
     /**
@@ -48,9 +56,7 @@ class GetCustomerDTO
             } catch (\Exception $exception) {
                 throw new \Exception($exception->getMessage());
             }
-
         }
-
     }
 
     public function getResults(): array
