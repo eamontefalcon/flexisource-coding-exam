@@ -6,14 +6,17 @@ use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
-use App\DTO\GetCustomerDTO;
+use App\Transformer\GetCustomerTransformer;
 use App\Helpers\HttpHelper;
 
-class CustomerService implements CustomerInterface
+class ImportCustomerService implements ImportCustomerInterface
 {
+    /**
+     * @throws Exception
+     */
     private function setApiResponse(Response $response): array
     {
-        return (new GetCustomerDTO($response))->getResults();
+        return (new GetCustomerTransformer($response))->getResults();
     }
 
     /**

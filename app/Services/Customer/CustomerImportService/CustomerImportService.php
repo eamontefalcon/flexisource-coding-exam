@@ -2,29 +2,30 @@
 
 namespace App\Services\Customer\CustomerImportService;
 
-use App\Services\Customer\CreateCustomerService\CreateCustomerService;
-use App\Services\Customer\CustomerInterface;
-use App\Services\Customer\CustomerService;
+use App\Repositories\Customer\CustomerRepositoryInterface;
+use App\Services\Customer\ImportCustomerInterface;
 
 class CustomerImportService
 {
-    private CreateCustomerService $createCustomerService;
+    private ImportCustomerInterface $importCustomer;
+    private CustomerRepositoryInterface $customerRepository;
 
-    private CustomerInterface $customer;
-
-    public function __construct(CreateCustomerService $createCustomerService, CustomerInterface $customer)
+    public function __construct(CustomerRepositoryInterface $customerRepository, ImportCustomerInterface $importCustomer)
     {
-        $this->createCustomerService = $createCustomerService;
-        $this->customer = $customer;
+        $this->importCustomer = $importCustomer;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
      * @throws \Exception
+     *
+     * Get customers data from third party api
+     * then insert all that record to customers entity
+     *
      */
     public function handle(int $importCount, string $nationality): void
     {
-        $customers = $this->customer->getCustomers($importCount, $nationality);
-
-        $this->createCustomerService->createBulkCustomer($customers);
+        $importCustomersData = $this->importCustomer->getCustomers($importCount, $nationality);
+        $this->customerRepository->createBulkCustomer($importCustomersData);
     }
 }

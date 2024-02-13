@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Entities\Customer;
+use App\Repositories\Customer\CustomerRepositoryInterface;
 use App\Services\Customer\CreateCustomerService\CreateCustomerService;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,8 +29,8 @@ class CustomerTest extends TestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = app(EntityManagerInterface::class);
 
-        /** @var CreateCustomerService $createCustomer */
-        $createCustomer = app(CreateCustomerService::class);
+        /** @var CustomerRepositoryInterface $createCustomer */
+        $createCustomer = app(CustomerRepositoryInterface::class);
 
         $count = 1;
         $dummyCustomers = [];
