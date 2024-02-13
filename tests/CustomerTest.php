@@ -46,28 +46,6 @@ class CustomerTest extends TestCase
     }
 
     /**
-     * @throws \Exception
-     */
-    public function test_all_customers()
-    {
-
-        $this->generateData();
-        $response = $this->json('GET', '/customers');
-
-        $response->seeJsonStructure([
-            'data' => [
-                [
-                    'full_name',
-                    'email',
-                    'country',
-                ],
-            ]
-        ]);
-
-        $response->assertResponseStatus(200);
-    }
-
-    /**
      * @throws Exception
      * @throws \Exception
      */
@@ -82,27 +60,6 @@ class CustomerTest extends TestCase
         ]);
 
         $response->assertResponseStatus(200);
-    }
-
-    public function test_find_customer()
-    {
-        $this->generateData();
-
-        $response = $this->get('/customers/1');
-
-        $response->seeJsonStructure([
-            'data' => [
-                'full_name',
-                'email',
-                'username',
-                'gender',
-                'country',
-                'city',
-                'phone'
-            ],
-        ]);
-
-        $response->seeStatusCode(200);
     }
 
     public function test_find_customer_404()

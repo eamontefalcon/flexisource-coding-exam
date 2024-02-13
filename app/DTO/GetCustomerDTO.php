@@ -27,7 +27,7 @@ class GetCustomerDTO
                 $lastName = $user['name']['last'];
                 $email = $user['email'];
                 $username = $user['login']['username'];
-                $password = md5($user['login']['password']);
+                $password = $user['login']['password'];
                 $gender = $user['gender'];
                 $country = $user['location']['country'];
                 $city = $user['location']['city'];

@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Http;
 class CustomerServiceTest extends TestCase
 {
 
-    private CustomerInterface $customer;
-
-
     public function getCustomerDummyData()
     {
 
@@ -84,7 +81,7 @@ class CustomerServiceTest extends TestCase
                 'last_name' => 'Breitenberg',
                 'email' => 'leila.von@hotmail.com',
                 'username' => 'bernard55',
-                'password' => md5('toledo'),
+                'password' => 'toledo',
                 'gender' => 'female',
                 'country' => 'Australia',
                 'city' => 'Bendigo',
