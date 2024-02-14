@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\Customer\ImportCustomerInterface;
-use App\Services\Customer\ImportCustomerService;
+use App\Services\Customer\Api\ImportCustomerInterface;
+use App\Services\Customer\Api\ImportCustomerService;
 use Illuminate\Support\ServiceProvider;
 
 class ImportCustomerServiceProvider extends ServiceProvider

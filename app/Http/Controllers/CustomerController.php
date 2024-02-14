@@ -37,6 +37,6 @@ class CustomerController extends Controller
             abort(404);
         }
 
-        return response()->json(['data' => (new CustomerResource($customer))->showDetails()]);
+        return response()->json(['data' => (new CustomerResource($customer))->customerInformation()]);
     }
 }

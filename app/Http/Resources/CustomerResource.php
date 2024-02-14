@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CustomerResource extends JsonResource
 {
     /**
-     * Extract all customer data
+     * Extract details of customer
      */
     private function extractCustomerDetails(Customer $customer): array
     {
@@ -51,7 +51,7 @@ class CustomerResource extends JsonResource
     /**
      * Get all information in a specific customer
      */
-    public function showDetails(): array
+    public function customerInformation(): array
     {
 
         if (!$this->resource instanceof Customer) {

@@ -2,15 +2,16 @@
 
 namespace Tests;
 
-use App\Services\Customer\ImportCustomerInterface;
+use App\Services\Customer\Api\ImportCustomerInterface;
 use Illuminate\Support\Facades\Http;
+
 class CustomerServiceTest extends TestCase
 {
 
     public function getCustomerDummyData()
     {
 
-        return                 [
+        return  [
             'results' => [
                 [
                     'gender' => 'female',

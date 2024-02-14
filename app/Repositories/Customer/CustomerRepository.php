@@ -9,11 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class CustomerRepository extends EntityRepository implements CustomerRepositoryInterface
 {
+
     /**
+     * Upsert customers in bulk.
      *
-     * Upsert customer
-     * if email already exist just update it's existing record
-     * if email is not yet exist insert it
+     * This method performs a bulk upsert operation for customer records. If a customer's email already exists in the database,
+     * the method updates the existing record; otherwise, it inserts a new record. The operation is performed in batches to
+     * improve efficiency.
+     *
      */
     public function createBulkCustomer(array $customersData, $batchSize = 500): void
     {

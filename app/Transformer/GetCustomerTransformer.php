@@ -4,18 +4,21 @@ namespace App\Transformer;
 
 use Illuminate\Http\Client\Response;
 
-
-/** make this transformer */
 class GetCustomerTransformer
 {
 
+    /**
+     * Stores transformed customer data.
+     *
+     * This array holds the structured customer data
+     * obtained from the third-party API response.
+     */
     private array $data = [];
 
     /**
+     * Constructs a new instance of GetCustomerTransformer.
+     *
      * @throws \Exception
-     *
-     * get tghe
-     *
      */
     public function __construct(Response $data)
     {
@@ -24,7 +27,13 @@ class GetCustomerTransformer
     }
 
     /**
-     * @throws \Exception
+     * Sets the customer results extracted from the response data.
+     *
+     * This method processes each user in the results array obtained from the API response.
+     * It extracts relevant fields such as first name, last name, email, username, password, gender,
+     * country, city, and phone number from each user object and constructs an array of customer data.
+     *
+     * @throws \Exception If an error occurs during data processing.
      */
     public function setResults(array $results): void
     {
@@ -59,6 +68,12 @@ class GetCustomerTransformer
         }
     }
 
+    /**
+     * Retrieves the transformed customer data.
+     *
+     * This method returns the array of customer data that has been transformed and structured
+     * from the raw response data obtained from the third-party API.
+     */
     public function getResults(): array
     {
         return $this->data;

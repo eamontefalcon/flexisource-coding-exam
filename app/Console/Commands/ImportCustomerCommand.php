@@ -20,8 +20,15 @@ class ImportCustomerCommand extends Command
      * @var string
      */
     protected $description = 'Import customers from api';
+
+    /**
+     * Import customers from third-party api and save it to database
+     */
     private CustomerImportService $customerImportService;
 
+    /**
+     * Initialize instance
+     */
     public function __construct(CustomerImportService $customerImportService)
     {
         parent::__construct();
@@ -29,8 +36,9 @@ class ImportCustomerCommand extends Command
         $this->customerImportService = $customerImportService;
     }
 
-
     /**
+     * Process bulk import of customers
+     *
      * @throws \Exception
      */
     public function handle(): void

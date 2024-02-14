@@ -3,27 +3,24 @@
 namespace App\Services\Customer\CustomerImportService;
 
 use App\Repositories\Customer\CustomerRepositoryInterface;
-use App\Services\Customer\ImportCustomerInterface;
+use App\Services\Customer\Api\ImportCustomerInterface;
 
 class CustomerImportService
 {
-    private ImportCustomerInterface $importCustomer;
-    private CustomerRepositoryInterface $customerRepository;
-
     /**
      * Initialize instances
      */
-    public function __construct(CustomerRepositoryInterface $customerRepository, ImportCustomerInterface $importCustomer)
-    {
-        $this->importCustomer = $importCustomer;
-        $this->customerRepository = $customerRepository;
-    }
+    public function __construct(
+        private CustomerRepositoryInterface $customerRepository,
+        private ImportCustomerInterface $importCustomer
+    ) { }
 
     /**
-     * @throws \Exception
      *
      * Get customers data from third party api
      * then insert all that record to customers entity
+     *
+     * @throws \Exception
      *
      */
     public function handle(int $importCount, string $nationality): void
