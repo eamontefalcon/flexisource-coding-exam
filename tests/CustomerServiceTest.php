@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\Http;
 
 class CustomerServiceTest extends TestCase
 {
-
     public function getCustomerDummyData()
     {
 
-        return  [
+        return [
             'results' => [
                 [
                     'gender' => 'female',
@@ -45,14 +44,14 @@ class CustomerServiceTest extends TestCase
                         'medium' => 'https://randomuser.me/api/portraits/med/women/15.jpg',
                         'thumbnail' => 'https://randomuser.me/api/portraits/thumb/women/15.jpg'],
                     'nat' => 'RS',
-                ]
+                ],
             ],
             'info' => [
                 'seed' => '8145bc60dc2cddbc',
                 'results' => 1,
                 'page' => 1,
-                'version' => '1.4'
-            ]
+                'version' => '1.4',
+            ],
         ];
     }
 
@@ -70,11 +69,10 @@ class CustomerServiceTest extends TestCase
             ),
         ]);
 
-        /** @var  ImportCustomerInterface $customerService */
+        /** @var ImportCustomerInterface $customerService */
         $customerService = app(ImportCustomerInterface::class);
 
         $response = $customerService->getCustomers(1, 'au');
-
 
         $expectedJson = [
             [
@@ -87,9 +85,8 @@ class CustomerServiceTest extends TestCase
                 'country' => 'Australia',
                 'city' => 'Bendigo',
                 'phone' => '09-7946-4705',
-            ]
+            ],
         ];
-
 
         $this->assertJson(json_encode($response));
         $this->assertJsonStringEqualsJsonString(json_encode($expectedJson), json_encode($response));
@@ -105,12 +102,12 @@ class CustomerServiceTest extends TestCase
         Http::fake([
             config('customer.base_url').'?results=1&nat=au' => Http::response(
                 [
-                    'error' => 'Uh oh, something has gone wrong. Please tweet us @randomapi about the issue. Thank you.'
+                    'error' => 'Uh oh, something has gone wrong. Please tweet us @randomapi about the issue. Thank you.',
                 ], 500
             ),
         ]);
 
-        /** @var  ImportCustomerInterface $customerService */
+        /** @var ImportCustomerInterface $customerService */
         $customerService = app(ImportCustomerInterface::class);
 
         $response = $customerService->getCustomers(1, 'au');

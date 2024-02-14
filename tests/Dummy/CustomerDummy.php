@@ -13,7 +13,7 @@ class CustomerDummy
         $this->faker = $faker;
     }
 
-    public function create() : array
+    public function create(): array
     {
         $gender = ['male', 'female'];
         $selectedGender = array_rand($gender);
@@ -21,7 +21,7 @@ class CustomerDummy
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' =>  $this->faker->email,
+            'email' => $this->faker->email,
             'username' => $this->faker->userName,
             'password' => $this->faker->password,
             'gender' => $gender[$selectedGender],

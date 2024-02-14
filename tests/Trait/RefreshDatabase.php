@@ -14,7 +14,7 @@ trait RefreshDatabase
         try {
             Artisan::call('doctrine:schema:create');
         } catch (\Exception $exception) {
-            Artisan::call( 'doctrine:schema:update');
+            Artisan::call('doctrine:schema:update');
         }
 
     }
