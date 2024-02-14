@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\Customer\Api\ImportCustomerInterface;
-use App\Services\Customer\Api\ImportCustomerService;
+use App\Services\Customer\Api\CustomerImportInterface;
+use App\Services\Customer\Api\CustomerImportService;
 use Illuminate\Support\ServiceProvider;
 
 class ImportCustomerServiceProvider extends ServiceProvider
@@ -25,8 +25,8 @@ class ImportCustomerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ImportCustomerInterface::class, function () {
-            return new ImportCustomerService();
+        $this->app->bind(CustomerImportInterface::class, function () {
+            return new CustomerImportService();
         });
     }
 }

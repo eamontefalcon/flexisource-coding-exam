@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Services\Customer\CustomerImportService;
+namespace App\Services\Customer\CustomerDataSyncService;
 
 use App\Repositories\Customer\CustomerRepositoryInterface;
-use App\Services\Customer\Api\ImportCustomerInterface;
+use App\Services\Customer\Api\CustomerImportInterface;
 
-class CustomerImportService
+class CustomerDataSyncService
 {
     /**
      * Initialize instances
      */
     public function __construct(
         private CustomerRepositoryInterface $customerRepository,
-        private ImportCustomerInterface $importCustomer
+        private CustomerImportInterface $importCustomer
     ) {
     }
 

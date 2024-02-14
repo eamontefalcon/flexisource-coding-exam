@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\Services\Customer\Api\ImportCustomerInterface;
+use App\Services\Customer\Api\CustomerImportInterface;
 use Illuminate\Support\Facades\Http;
 
 class CustomerServiceTest extends TestCase
@@ -69,8 +69,8 @@ class CustomerServiceTest extends TestCase
             ),
         ]);
 
-        /** @var ImportCustomerInterface $customerService */
-        $customerService = app(ImportCustomerInterface::class);
+        /** @var CustomerImportInterface $customerService */
+        $customerService = app(CustomerImportInterface::class);
 
         $response = $customerService->getCustomers(1, 'au');
 
@@ -107,8 +107,8 @@ class CustomerServiceTest extends TestCase
             ),
         ]);
 
-        /** @var ImportCustomerInterface $customerService */
-        $customerService = app(ImportCustomerInterface::class);
+        /** @var CustomerImportInterface $customerService */
+        $customerService = app(CustomerImportInterface::class);
 
         $response = $customerService->getCustomers(1, 'au');
         $this->assertSame(500, $response->status());

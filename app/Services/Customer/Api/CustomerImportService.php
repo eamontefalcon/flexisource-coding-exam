@@ -9,7 +9,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
-class ImportCustomerService implements ImportCustomerInterface
+class CustomerImportService implements CustomerImportInterface
 {
     /**
      * Transform the api response

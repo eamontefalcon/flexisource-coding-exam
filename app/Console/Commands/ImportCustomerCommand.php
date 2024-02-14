@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Customer\CustomerImportService\CustomerImportService;
+use App\Services\Customer\CustomerDataSyncService\CustomerDataSyncService;
 use Illuminate\Console\Command;
 
 class ImportCustomerCommand extends Command
@@ -24,12 +24,12 @@ class ImportCustomerCommand extends Command
     /**
      * Import customers from third-party api and save it to database
      */
-    private CustomerImportService $customerImportService;
+    private CustomerDataSyncService $customerImportService;
 
     /**
      * Initialize instance
      */
-    public function __construct(CustomerImportService $customerImportService)
+    public function __construct(CustomerDataSyncService $customerImportService)
     {
         parent::__construct();
 
