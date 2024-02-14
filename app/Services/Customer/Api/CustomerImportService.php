@@ -2,12 +2,12 @@
 
 namespace App\Services\Customer\Api;
 
-use App\Helpers\HttpHelper;
 use App\Transformer\GetCustomerTransformer;
 use Exception;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CustomerImportService implements CustomerImportInterface
 {
@@ -29,22 +29,29 @@ class CustomerImportService implements CustomerImportInterface
     public function getCustomers(int $importCount, ?string $nationality = null): JsonResponse|array
     {
 
-        $parameter = '?results='.$importCount;
+        // Construct query parameters for the API request.
+        $queryParameters = ['results' => $importCount];
+
+        // Include the 'nationality' parameter if provided.
         if ($nationality) {
-            $parameter .= '&nat='.$nationality;
+            $queryParameters['nat'] = $nationality;
         }
 
+        // Build the query string from the parameters.
+        $parameter = '?'.http_build_query($queryParameters);
+
         /**
-         * customer() method is in a service provider (HttpMacroServiceProvider)
+         * Makes a GET request to the customer API endpoint using the 'customer' macro.
+         * The 'customer' macro is defined in the HttpMacroServiceProvider service provider.
          *
          * @var Response $response
          */
         $response = Http::customer()->get($parameter);
 
-        $response = HttpHelper::tryCatchHttp($response);
+        if ($response->failed()) {
+            Log::error($response->toException());
 
-        if ($response->status() === 500) {
-            return $response;
+            return response()->json(['error' => $response->status()], $response->status());
         }
 
         return $this->setApiResponse($response);
