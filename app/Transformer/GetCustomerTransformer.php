@@ -6,7 +6,6 @@ use Illuminate\Http\Client\Response;
 
 class GetCustomerTransformer
 {
-
     /**
      * Stores transformed customer data.
      *
@@ -60,7 +59,7 @@ class GetCustomerTransformer
                     'gender' => $gender,
                     'country' => $country,
                     'city' => $city,
-                    'phone' => $phone
+                    'phone' => $phone,
                 ];
             } catch (\Exception $exception) {
                 throw new \Exception($exception->getMessage());

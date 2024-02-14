@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CustomerResource;
 use App\Repositories\Customer\CustomerRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -14,7 +13,8 @@ class CustomerController extends Controller
      */
     public function __construct(
         public CustomerRepositoryInterface $customerRepository
-    ) { }
+    ) {
+    }
 
     /**
      * Get list of customers
@@ -33,7 +33,7 @@ class CustomerController extends Controller
     {
         $customer = $this->customerRepository->find($customerId);
 
-        if (null === $customer) {
+        if ($customer === null) {
             abort(404);
         }
 

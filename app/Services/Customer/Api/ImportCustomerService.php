@@ -26,7 +26,7 @@ class ImportCustomerService implements ImportCustomerInterface
      *
      * @throws Exception
      */
-    public function getCustomers(int $importCount, string $nationality = null): JsonResponse | array
+    public function getCustomers(int $importCount, ?string $nationality = null): JsonResponse|array
     {
 
         $parameter = '?results='.$importCount;
@@ -38,7 +38,6 @@ class ImportCustomerService implements ImportCustomerInterface
          * customer() method is in a service provider (HttpMacroServiceProvider)
          *
          * @var Response $response
-         *
          */
         $response = Http::customer()->get($parameter);
 
@@ -50,5 +49,4 @@ class ImportCustomerService implements ImportCustomerInterface
 
         return $this->setApiResponse($response);
     }
-
 }

@@ -36,12 +36,11 @@ class CustomerResource extends JsonResource
      * Transform the resource into an array.
      *
      * This will extract all the data in customers
-     *
      */
     public function toArray($request): array
     {
 
-        if (!$this->resource instanceof Customer) {
+        if (! $this->resource instanceof Customer) {
             return [];
         }
 
@@ -54,7 +53,7 @@ class CustomerResource extends JsonResource
     public function customerInformation(): array
     {
 
-        if (!$this->resource instanceof Customer) {
+        if (! $this->resource instanceof Customer) {
             return [];
         }
 
@@ -63,5 +62,4 @@ class CustomerResource extends JsonResource
 
         return array_merge($profileData, $additionalDetails);
     }
-
 }

@@ -9,14 +9,12 @@ use Illuminate\Support\Facades\Log;
 
 class CustomerRepository extends EntityRepository implements CustomerRepositoryInterface
 {
-
     /**
      * Upsert customers in bulk.
      *
      * This method performs a bulk upsert operation for customer records. If a customer's email already exists in the database,
      * the method updates the existing record; otherwise, it inserts a new record. The operation is performed in batches to
      * improve efficiency.
-     *
      */
     public function createBulkCustomer(array $customersData, $batchSize = 500): void
     {
@@ -59,7 +57,7 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
                 }
 
                 $sql = rtrim($sql, ', ');
-                $sql .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updateValues);
+                $sql .= ' ON DUPLICATE KEY UPDATE '.implode(', ', $updateValues);
 
                 // Prepare and execute the statement
                 $stmt = $connection->prepare($sql);
@@ -71,11 +69,11 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
         } catch (Exception $e) {
             // Rollback the transaction on error
             $connection->rollBack();
-            Log::error("Error while inserting/updating customers batch: " . $e->getMessage());
+            Log::error('Error while inserting/updating customers batch: '.$e->getMessage());
         } catch (ConnectionException $e) {
-            Log::error("Connection Exception Error: " . $e->getMessage());
+            Log::error('Connection Exception Error: '.$e->getMessage());
         } catch (\Doctrine\DBAL\Exception $e) {
-            Log::error("Doctrine Exception Error " . $e->getMessage());
+            Log::error('Doctrine Exception Error '.$e->getMessage());
         }
     }
 }

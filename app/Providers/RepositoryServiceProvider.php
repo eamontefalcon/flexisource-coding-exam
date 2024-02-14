@@ -17,9 +17,8 @@ class RepositoryServiceProvider extends ServiceProvider
             'interface' => CustomerRepositoryInterface::class,
             'repository' => CustomerRepository::class,
             'entity' => Customer::class,
-        ]
+        ],
     ];
-
 
     /**
      * Bootstrap the application services.
@@ -36,11 +35,11 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-         foreach ($this->repos as $repo) {
-             $this->app->bind($repo['interface'], fn ($app) => new $repo['repository'] (
-                 $app['em'],
-                 $app['em']->getClassMetaData($repo['entity'])
-             ));
-         }
+        foreach ($this->repos as $repo) {
+            $this->app->bind($repo['interface'], fn ($app) => new $repo['repository'](
+                $app['em'],
+                $app['em']->getClassMetaData($repo['entity'])
+            ));
+        }
     }
 }

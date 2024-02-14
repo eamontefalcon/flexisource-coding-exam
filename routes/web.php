@@ -13,6 +13,5 @@
 |
 */
 
-
 $router->get('/customers', 'CustomerController@index');
 $router->get('/customers/{customerId}', 'CustomerController@show');

@@ -13,15 +13,14 @@ class CustomerImportService
     public function __construct(
         private CustomerRepositoryInterface $customerRepository,
         private ImportCustomerInterface $importCustomer
-    ) { }
+    ) {
+    }
 
     /**
-     *
      * Get customers data from third party api
      * then insert all that record to customers entity
      *
      * @throws \Exception
-     *
      */
     public function handle(int $importCount, string $nationality): void
     {

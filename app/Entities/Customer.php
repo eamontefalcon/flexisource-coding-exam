@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Entities;
+namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,7 +11,9 @@ class Customer
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected int $id;
@@ -61,7 +63,6 @@ class Customer
      */
     private string $phone;
 
-
     /**
      * @throws \Exception
      */
@@ -75,8 +76,7 @@ class Customer
         string $country,
         string $city,
         string $phone
-    )
-    {
+    ) {
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
         $this->setEmail($email);
@@ -87,7 +87,6 @@ class Customer
         $this->setCity($city);
         $this->setPhone($phone);
     }
-
 
     public function getFirstName(): string
     {
@@ -125,7 +124,7 @@ class Customer
 
     public function getFullName(): string
     {
-        return $this->firstName . ' '. $this->lastName;
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getUsername(): string
@@ -155,7 +154,7 @@ class Customer
      */
     public function setEmail(string $email): void
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \Exception('email is not valid');
         }
 
@@ -246,6 +245,4 @@ class Customer
 
         $this->phone = $phone;
     }
-
-
 }
